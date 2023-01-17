@@ -10,8 +10,8 @@ dataError.index = dataError["Obs"]
 data = data.drop(["Obs"], axis=1)
 dataError = dataError.drop(["Obs"], axis=1)
 
-data = data[["E(B-V)", "N(H)"]]
-dataError = dataError[["E(B-V)", "N(H)"]]
+# data = data[["E(B-V)", "N(H)"]]
+# dataError = dataError[["E(B-V)", "N(H)"]]
 
 
 from Classes.Weighted_Average import Weighted_Average
@@ -43,4 +43,4 @@ from Classes.PCA_Analysis import PCA_Analysis
 
 pca = PCA_Analysis(normalizedData, correlationMatrix)
 
-eigenval, eigenvec = pca.PCA()
+eigenval, eigenvec = pca.Eigen()
