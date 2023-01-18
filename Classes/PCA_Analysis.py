@@ -13,6 +13,11 @@ class PCA_Analysis:
 
         eigenvalues, eigenvectors = np.linalg.eig(correlation)
 
+        #ordenar autovalores e autovetores
+        index = eigenvalues.argsort()[::-1]
+        eigenvalues = eigenvalues[index]
+        eigenvectors = eigenvectors[:, index]
+
         eigenvalues = pd.DataFrame(eigenvalues)
         eigenvectors = pd.DataFrame(eigenvectors)
 
@@ -38,6 +43,20 @@ class PCA_Analysis:
 
         return eigenvalues, eigenvectors
 
+    def PCA(self):
 
+        eigenval, eigenvec = self.Eigen()
 
+        pcaScores = np.matmul(np.matrix(self.data), np.matrix(eigenvec))
 
+        pcaScores = pd.DataFrame(pcaScores)
+
+        listOfColumns = []
+        for column in pcaScores.columns:
+            column = "PC_" + str(column + 1)
+            listOfColumns.append(column)
+
+        pcaScores.columns = listOfColumns
+        pcaScores.index = self.data.index
+
+        return pcaScores

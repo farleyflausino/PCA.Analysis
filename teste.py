@@ -44,3 +44,5 @@ from Classes.PCA_Analysis import PCA_Analysis
 pca = PCA_Analysis(normalizedData, correlationMatrix)
 
 eigenval, eigenvec = pca.Eigen()
+
+pcaScores = pca.PCA()
