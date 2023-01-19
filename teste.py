@@ -10,8 +10,8 @@ dataError.index = dataError["Obs"]
 data = data.drop(["Obs"], axis=1)
 dataError = dataError.drop(["Obs"], axis=1)
 
-# data = data[["E(B-V)", "N(H)"]]
-# dataError = dataError[["E(B-V)", "N(H)"]]
+data = data[["E(B-V)", "N(H)"]]
+dataError = dataError[["E(B-V)", "N(H)"]]
 
 
 from Classes.Weighted_Average import Weighted_Average
@@ -21,6 +21,8 @@ weighted_average = Weighted_Average(data, dataError)
 weight = weighted_average.Weight()
 
 weightedAverage = weighted_average.Average()
+
+weightedAverageError = weighted_average.Average_Error()
 
 from Classes.Covariance import Covariance
 

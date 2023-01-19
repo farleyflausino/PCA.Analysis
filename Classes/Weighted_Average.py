@@ -27,3 +27,12 @@ class Weighted_Average:
         weightedAverage.columns = [["Weighted_Average"]]
 
         return weightedAverage
+
+    def Average_Error(self):
+
+        weight = self.Weight()
+        sumOfWights = weight.sum(axis=0)
+
+        weightedAverageError = sumOfWights.apply(lambda x: (1/x)**(1/2))
+
+        return weightedAverageError
