@@ -51,9 +51,10 @@ pcaScores = pca.PCA()
 
 from Classes.Aleatory_Matrix import Random_Matrix
 
-randomMatrix = Random_Matrix(data, dataError)
+randomMatrix = Random_Matrix(weightedAverage, weightedAverageError)
 
+randomMean = randomMatrix.Random_Gauss()
 lis = []
-for i in range(0, 3):
-    randomMean = randomMatrix.Random_Gauss()
-    lis.append(randomMean.iloc[0,0][0])
+# for i in range(0, 3):
+#     randomMean = randomMatrix.Random_Gauss()
+#     lis.append(randomMean.iloc[0,0])
