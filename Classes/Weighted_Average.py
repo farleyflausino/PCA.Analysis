@@ -35,4 +35,8 @@ class Weighted_Average:
 
         weightedAverageError = sumOfWights.apply(lambda x: (1/x)**(1/2))
 
+        weightedAverageError = pd.DataFrame(weightedAverageError)
+
+        weightedAverageError.columns = [["Weighted_Average_Error"]]
+
         return weightedAverageError

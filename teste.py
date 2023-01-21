@@ -48,3 +48,12 @@ pca = PCA_Analysis(normalizedData, correlationMatrix)
 eigenval, eigenvec = pca.Eigen()
 
 pcaScores = pca.PCA()
+
+from Classes.Aleatory_Matrix import Random_Matrix
+
+randomMatrix = Random_Matrix(data, dataError)
+
+lis = []
+for i in range(0, 3):
+    randomMean = randomMatrix.Random_Gauss()
+    lis.append(randomMean.iloc[0,0][0])
