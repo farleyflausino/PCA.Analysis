@@ -15,4 +15,3 @@ class Random_Matrix:
                 randomSample.iloc[i, j] = np.random.normal(self.mean.iloc[i, j], self.std.iloc[i, j], size=1)
 
         return randomSample
-
