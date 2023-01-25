@@ -25,7 +25,7 @@ eigenvecDictionary = {}
 eigenvalDictionary = {}
 varianceDictionary = {}
 cumulativeVarianceDictionary = {}
-contador = 0
+counter = 0
 
 for iteration in range(0, 10):
     #Covariance
@@ -105,10 +105,10 @@ for iteration in range(0, 10):
         else:
             cumulativeVarianceDictionary["Cumulative_Variance"] = eigenval.iloc[:, 2]
 
-    contador = contador + 1
+    counter = counter + 1
 
     #Save in the file
-    if contador == 10:
+    if counter == 10:
 
         for i in range(0, data.shape[1]):
 
@@ -203,4 +203,4 @@ for iteration in range(0, 10):
             pickle.dump(cumulativeVarianceDictionaryFile, cumulativeVarianceFile, protocol=pickle.HIGHEST_PROTOCOL)
 
         cumulativeVarianceDictionary = {}
-        contador = 0
+        counter = 0
