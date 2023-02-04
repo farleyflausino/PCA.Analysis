@@ -16,9 +16,6 @@ dataError.index = dataError["Obs"]
 data = data.drop(["Obs"], axis=1)
 dataError = dataError.drop(["Obs"], axis=1)
 
-data = data[["E(B-V)", "N(H)"]]
-dataError = dataError[["E(B-V)", "N(H)"]]
-
 #Empty dictionaries
 pcaDictionary = {}
 eigenvecDictionary = {}
@@ -95,7 +92,7 @@ for iteration in range(0, 10):
         else:
             varianceDictionary["Variance"] = eigenval.iloc[:, 1]
 
-    #Cumulative Variance
+    # Cumulative Variance
         if "Cumulative_Variance" in cumulativeVarianceDictionary:
             cumulativeVarianceDictionary["Cumulative_Variance"] = pd.concat(
                                                                 [cumulativeVarianceDictionary["Cumulative_Variance"],
@@ -110,10 +107,12 @@ for iteration in range(0, 10):
     #Save in the file
     if counter == 10:
 
+        counter = 0
+
         for i in range(0, data.shape[1]):
 
             #PCA
-            with open("Output/2D/PCA/PC_"+str(i+1)+".pickle", "rb") as pcaFile:
+            with open("Output/23D/PCA/PC_"+str(i+1)+".pickle", "rb") as pcaFile:
                 pcaDictionaryFile = pickle.load(pcaFile)
 
             if "PC_" + str(i+1) in pcaDictionaryFile:
@@ -125,11 +124,11 @@ for iteration in range(0, 10):
             else:
                 pcaDictionaryFile["PC_" + str(i+1)] = pcaDictionary["PC_" + str(i+1)]
 
-            with open("Output/2D/PCA/PC_"+str(i+1)+".pickle", "wb") as pcaFile:
+            with open("Output/23D/PCA/PC_"+str(i+1)+".pickle", "wb") as pcaFile:
                 pickle.dump(pcaDictionaryFile, pcaFile, protocol=pickle.HIGHEST_PROTOCOL)
 
             #Eigenvectors
-            with open("Output/2D/Eigenvectors/Eigenvector_" + str(i + 1) + ".pickle", "rb") as eigenvecFile:
+            with open("Output/23D/Eigenvectors/Eigenvector_" + str(i + 1) + ".pickle", "rb") as eigenvecFile:
                 eigenvecDictionaryFile = pickle.load(eigenvecFile)
 
             if "Eigenvector_" + str(i + 1) in eigenvecDictionaryFile:
@@ -142,7 +141,7 @@ for iteration in range(0, 10):
             else:
                 eigenvecDictionaryFile["Eigenvector_" + str(i + 1)] = eigenvecDictionary["Eigenvector_" + str(i + 1)]
 
-            with open("Output/2D/Eigenvectors/Eigenvector_" + str(i + 1) + ".pickle", "wb") as eigenvecFile:
+            with open("Output/23D/Eigenvectors/Eigenvector_" + str(i + 1) + ".pickle", "wb") as eigenvecFile:
                 pickle.dump(eigenvecDictionaryFile, eigenvecFile, protocol=pickle.HIGHEST_PROTOCOL)
 
         pcaDictionary = {}
@@ -150,7 +149,7 @@ for iteration in range(0, 10):
 
         #Eigenvalues
 
-        with open("Output/2D/Eigenvalues/Eigenvalues.pickle", "rb") as eigenvalFile:
+        with open("Output/23D/Eigenvalues/Eigenvalues.pickle", "rb") as eigenvalFile:
             eigenvalDictionaryFile = pickle.load(eigenvalFile)
 
         if "Eigenvalues" in eigenvalDictionaryFile:
@@ -162,13 +161,13 @@ for iteration in range(0, 10):
         else:
             eigenvalDictionaryFile["Eigenvalues"] = eigenvalDictionary["Eigenvalues"]
 
-        with open("Output/2D/Eigenvalues/Eigenvalues.pickle", "wb") as eigenvalFile:
+        with open("Output/23D/Eigenvalues/Eigenvalues.pickle", "wb") as eigenvalFile:
             pickle.dump(eigenvalDictionaryFile, eigenvalFile, protocol=pickle.HIGHEST_PROTOCOL)
 
         eigenvalDictionary = {}
 
         #Variance
-        with open("Output/2D/Eigenvalues/Variance.pickle", "rb") as varianceFile:
+        with open("Output/23D/Eigenvalues/Variance.pickle", "rb") as varianceFile:
             varianceDictionaryFile = pickle.load(varianceFile)
 
         if "Variance" in varianceDictionaryFile:
@@ -180,13 +179,13 @@ for iteration in range(0, 10):
         else:
             varianceDictionaryFile["Variance"] = varianceDictionary["Variance"]
 
-        with open("Output/2D/Eigenvalues/Variance.pickle", "wb") as varianceFile:
+        with open("Output/23D/Eigenvalues/Variance.pickle", "wb") as varianceFile:
             pickle.dump(varianceDictionaryFile, varianceFile, protocol=pickle.HIGHEST_PROTOCOL)
 
         varianceDictionary = {}
 
         #Cumulative Variance
-        with open("Output/2D/Eigenvalues/Cumulative_Variance.pickle", "rb") as cumulativeVarianceFile:
+        with open("Output/23D/Eigenvalues/Cumulative_Variance.pickle", "rb") as cumulativeVarianceFile:
             cumulativeVarianceDictionaryFile = pickle.load(cumulativeVarianceFile)
 
         if "Cumulative_Variance" in cumulativeVarianceDictionaryFile:
@@ -199,8 +198,7 @@ for iteration in range(0, 10):
             cumulativeVarianceDictionaryFile["Cumulative_Variance"] = \
                 cumulativeVarianceDictionary["Cumulative_Variance"]
 
-        with open("Output/2D/Eigenvalues/Cumulative_Variance.pickle", "wb") as cumulativeVarianceFile:
+        with open("Output/23D/Eigenvalues/Cumulative_Variance.pickle", "wb") as cumulativeVarianceFile:
             pickle.dump(cumulativeVarianceDictionaryFile, cumulativeVarianceFile, protocol=pickle.HIGHEST_PROTOCOL)
 
         cumulativeVarianceDictionary = {}
-        counter = 0
