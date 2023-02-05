@@ -5,6 +5,7 @@ from Classes.Aleatory_Matrix import Random_Matrix
 from Classes.Covariance import Covariance
 from Classes.Normalization import Normalization
 from Classes.PCA_Analysis import PCA_Analysis
+from datetime import datetime
 
 #Data input
 data = pd.read_excel("Dados/Dados_PCA_29_Obs.xlsx", "Dados_29_Obs")
@@ -23,6 +24,10 @@ eigenvalDictionary = {}
 varianceDictionary = {}
 cumulativeVarianceDictionary = {}
 counter = 0
+
+time = datetime.now()
+
+print("Inicio: "+str(time.hour)+":"+str(time.minute)+":"+str(time.second))
 
 for iteration in range(0, 10):
     #Covariance
@@ -106,8 +111,6 @@ for iteration in range(0, 10):
 
     #Save in the file
     if counter == 10:
-
-        counter = 0
 
         for i in range(0, data.shape[1]):
 
@@ -202,3 +205,8 @@ for iteration in range(0, 10):
             pickle.dump(cumulativeVarianceDictionaryFile, cumulativeVarianceFile, protocol=pickle.HIGHEST_PROTOCOL)
 
         cumulativeVarianceDictionary = {}
+        counter = 0
+
+        print("Fim de uma etapa de 100.000: " + str(time.hour) + ":" + str(time.minute) + ":" + str(time.second))
+
+print("Fim: "+str(time.hour)+":"+str(time.minute)+":"+str(time.second))
