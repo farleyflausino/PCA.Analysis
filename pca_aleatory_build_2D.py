@@ -32,7 +32,7 @@ time = datetime.now()
 
 print("Inicio: "+str(time.hour)+":"+str(time.minute)+":"+str(time.second))
 
-for iteration in range(0, 10):
+for iteration in range(0, 100000):
 
     #Covariance
     covariance = Covariance(
@@ -113,8 +113,11 @@ for iteration in range(0, 10):
 
     counter = counter + 1
 
+    if counter == 1000:
+        print(counter)
+
     #Save in the file
-    if counter == 10:
+    if counter == 100000:
 
         for i in range(0, data.shape[1]):
 
