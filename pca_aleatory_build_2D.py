@@ -32,23 +32,33 @@ time = datetime.now()
 
 print("Inicio: "+str(time.hour)+":"+str(time.minute)+":"+str(time.second))
 
-for iteration in range(0, 100000):
+weightedAverage = Weighted_Average(data, dataError)
 
+mean = weightedAverage.Average()
+
+meanError = weightedAverage.Average_Error()
+
+randomVar = Random_Matrix(mean, meanError)
+
+covariance = Covariance()
+
+for iteration in range(0, 1000):
+
+    #Mean
+    average = randomVar.Random_Gauss()
     #Covariance
-    covariance = Covariance(
-                            data,
-                            Random_Matrix(
-                                        Weighted_Average(data, dataError).Average(),
-                                        Weighted_Average(data, dataError).Average_Error()
-                            ).Random_Gauss()
-                            )
+    covarianceMatrix = covariance.Covariance_Matrix(data, average)
+    #Deviation
+    deviation = covariance.Deviation_Matrix(data, average)
+    #Diagonal
+    diagonal = covariance.Variance_Diagonal(data, average)
 
     #Correlation
     correlation = Normalization(
                                 data,
-                                covariance.Deviation_Matrix(),
-                                covariance.Variance_Diagonal(),
-                                covariance.Covariance_Matrix()
+                                deviation,
+                                diagonal,
+                                covarianceMatrix
                                 )
     #Eivalues and Eigenvectors
     eigenval, eigenvec = PCA_Analysis(correlation.Normalized_Data(), correlation.Correlation_Matrix()).Eigen()
@@ -115,9 +125,12 @@ for iteration in range(0, 100000):
 
     if counter == 1000:
         print(counter)
+        print(str(time.hour) + ":" + str(time.minute) + ":" + str(time.second))
 
     #Save in the file
     if counter == 100000:
+
+        counter = 0
 
         for i in range(0, data.shape[1]):
 
@@ -212,8 +225,9 @@ for iteration in range(0, 100000):
             pickle.dump(cumulativeVarianceDictionaryFile, cumulativeVarianceFile, protocol=pickle.HIGHEST_PROTOCOL)
 
         cumulativeVarianceDictionary = {}
-        counter = 0
 
+        time = datetime.now()
         print("Fim de uma etapa de 100.000: " + str(time.hour) + ":" + str(time.minute) + ":" + str(time.second))
 
+time = datetime.now()
 print("Fim: "+str(time.hour)+":"+str(time.minute)+":"+str(time.second))

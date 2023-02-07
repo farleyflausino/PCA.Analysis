@@ -2,23 +2,20 @@ import pandas as pd
 import numpy as np
 
 class Covariance:
-    def __init__(self, data, average):
-        self.data = data
-        self.average = average
 
-    def Deviation_Matrix(self):
+    def Deviation_Matrix(self, data, average):
 
-        deviation = self.data.copy()
-        for i in range(0, self.data.shape[0]):
-            for j in range(0, self.data.shape[1]):
-                deviation.iloc[i, j] = self.data.iloc[i, j] - self.average.iloc[j, 0]
+        deviation = data.copy()
+        for i in range(0, data.shape[0]):
+            for j in range(0, data.shape[1]):
+                deviation.iloc[i, j] = data.iloc[i, j] - average.iloc[j, 0]
 
         return deviation
 
 
-    def Covariance_Matrix(self):
+    def Covariance_Matrix(self, data, average):
 
-        deviation = self.Deviation_Matrix()
+        deviation = self.Deviation_Matrix(data, average)
 
         deviationTranspose = deviation.T
         deviationMatrix = np.matrix(deviation)
@@ -26,16 +23,16 @@ class Covariance:
         covarianceMatrix = np.matmul(deviationTransposeMatrix, deviationMatrix)
 
         covarianceMatrix = pd.DataFrame(covarianceMatrix)
-        covarianceMatrix = covarianceMatrix * (1 / (self.data.shape[0] - 1))
+        covarianceMatrix = covarianceMatrix * (1 / (data.shape[0] - 1))
 
-        covarianceMatrix.index = self.data.columns
-        covarianceMatrix.columns = self.data.columns
+        covarianceMatrix.index = data.columns
+        covarianceMatrix.columns = data.columns
 
         return covarianceMatrix
 
-    def Variance_Diagonal(self):
+    def Variance_Diagonal(self, data, average):
 
-        covarianceMatrix = self.Covariance_Matrix()
+        covarianceMatrix = self.Covariance_Matrix(data, average)
 
         covarianceMatrix = np.matrix(covarianceMatrix)
         diagonal = np.diag(covarianceMatrix)
@@ -43,7 +40,7 @@ class Covariance:
         diagonalMatrix = np.diag(diagonal)
         diagonalMatrix = pd.DataFrame(diagonalMatrix)
 
-        diagonalMatrix.index = self.data.columns
-        diagonalMatrix.columns = self.data.columns
+        diagonalMatrix.index = data.columns
+        diagonalMatrix.columns = data.columns
 
         return diagonalMatrix
