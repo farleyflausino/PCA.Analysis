@@ -31,14 +31,14 @@ class Normalization:
 
         ZscoreTranspose = np.matmul(diagonal, deviationTranspose)
         Zscore = np.transpose(ZscoreTranspose)
-        Zscore = pd.DataFrame(Zscore)
-
-        ZscoreList = []
-
-        for observation in [self.data.index]:
-            ZscoreList.append("Z(" + observation + ")")
-
-        Zscore.index = ZscoreList
-        Zscore.columns = self.data.columns
+        # Zscore = pd.DataFrame(Zscore)
+        #
+        # ZscoreList = []
+        #
+        # for observation in [self.data.index]:
+        #     ZscoreList.append("Z(" + observation + ")")
+        #
+        # Zscore.index = ZscoreList
+        # Zscore.columns = self.data.columns
 
         return Zscore

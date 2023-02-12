@@ -3,13 +3,14 @@ import numpy as np
 
 class PCA_Analysis:
 
-    def __init__(self, Zscore, correlation):
-        self.data = Zscore
-        self.correlation = correlation
+    # def __init__(self, Zscore, correlation):
+    #     self.data = Zscore
+    #     self.correlation = correlation
 
-    def Eigen(self):
+    def Eigen(self, correlation):
 
-        correlation = np.matrix(self.correlation)
+
+        correlation = np.matrix(correlation)
 
         eigenvalues, eigenvectors = np.linalg.eig(correlation)
 
@@ -39,15 +40,15 @@ class PCA_Analysis:
             listOfColumns.append(column)
 
         eigenvectors.columns = listOfColumns
-        eigenvectors.index = self.data.columns
+        # eigenvectors.index = self.data.columns
 
         return eigenvalues, eigenvectors
 
-    def PCA(self):
+    def PCA(self, correlation, data):
 
-        eigenval, eigenvec = self.Eigen()
+        eigenval, eigenvec = self.Eigen(correlation)
 
-        pcaScores = np.matmul(np.matrix(self.data), np.matrix(eigenvec))
+        pcaScores = np.matmul(np.matrix(data), np.matrix(eigenvec))
 
         pcaScores = pd.DataFrame(pcaScores)
 
@@ -57,6 +58,6 @@ class PCA_Analysis:
             listOfColumns.append(column)
 
         pcaScores.columns = listOfColumns
-        pcaScores.index = self.data.index
+        # pcaScores.index = self.data.index
 
         return pcaScores
