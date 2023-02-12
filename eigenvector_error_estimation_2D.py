@@ -18,10 +18,14 @@ for k in range(0, eigenvec.shape[1]):
 
     for i in range(0, len(eigenvecDictionaryFile["Eigenvector_"+str(k+1)])):
         for j in range(0, len(eigenvecDictionaryFile["Eigenvector_"+str(k+1)][0])):
-            eigenvecDictionaryFile["Eigenvector_"+str(k+1)][i][j] = pd.concat(eigenvecDictionaryFile["Eigenvector_"+str(k+1)][i][j], axis=1)
+            eigenvecDictionaryFile["Eigenvector_"+str(k+1)][i][j] = pd.concat(
+                eigenvecDictionaryFile["Eigenvector_"+str(k+1)][i][j], axis=1
+            )
 
     for i in range(0, len(eigenvecDictionaryFile["Eigenvector_"+str(k+1)])):
-        eigenvecDictionaryFile["Eigenvector_"+str(k+1)][i] = pd.concat(eigenvecDictionaryFile["Eigenvector_"+str(k+1)][i], axis=1)
+        eigenvecDictionaryFile["Eigenvector_"+str(k+1)][i] = pd.concat(
+            eigenvecDictionaryFile["Eigenvector_"+str(k+1)][i], axis=1
+        )
 
     eigenvecMean = pd.concat(eigenvecDictionaryFile["Eigenvector_"+str(k+1)], axis=1).mean(axis=1)
     eigenvecMean = pd.DataFrame(eigenvecMean, columns=["Eigenvector"+str(k+1)+"_Mean"])

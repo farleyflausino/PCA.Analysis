@@ -52,10 +52,14 @@ with open("Input/2D/Eigenvalues/Cumulative_Variance.pickle", "rb") as cumulative
 
 for i in range(0, len(cumulativevarianceDictionaryFile["Cumulative_Variance"])):
     for j in range(0, len(cumulativevarianceDictionaryFile["Cumulative_Variance"][0])):
-        cumulativevarianceDictionaryFile["Cumulative_Variance"][i][j] = pd.concat(cumulativevarianceDictionaryFile["Cumulative_Variance"][i][j], axis=1)
+        cumulativevarianceDictionaryFile["Cumulative_Variance"][i][j] = pd.concat(
+            cumulativevarianceDictionaryFile["Cumulative_Variance"][i][j], axis=1
+        )
 
 for i in range(0, len(cumulativevarianceDictionaryFile["Cumulative_Variance"])):
-    cumulativevarianceDictionaryFile["Cumulative_Variance"][i] = pd.concat(cumulativevarianceDictionaryFile["Cumulative_Variance"][i], axis=1)
+    cumulativevarianceDictionaryFile["Cumulative_Variance"][i] = pd.concat(
+        cumulativevarianceDictionaryFile["Cumulative_Variance"][i], axis=1
+    )
 
 cumulativevarianceMean = pd.concat(cumulativevarianceDictionaryFile["Cumulative_Variance"], axis=1).mean(axis=1)
 cumulativevarianceMean = pd.DataFrame(cumulativevarianceMean, columns=["Cumulative_Variance_Mean"])

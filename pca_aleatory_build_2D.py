@@ -181,6 +181,11 @@ for iteration in range(0, 1000):
 
         counter = 0
 
-        print("Fim de uma etapa de 100.000: " + str(datetime.now().hour) + ":" + str(datetime.now().minute) + ":" + str(datetime.now().second))
+        print(
+            "Fim de uma etapa de 100.000: " +
+            str(datetime.now().hour) + ":" +
+            str(datetime.now().minute) + ":" +
+            str(datetime.now().second)
+        )
 
 print("Fim: "+str(datetime.now().hour)+":"+str(datetime.now().minute)+":"+str(datetime.now().second))
