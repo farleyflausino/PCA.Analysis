@@ -100,7 +100,7 @@ for iteration in range(0, 1000000):
 
     counter = counter + 1
     #Save in the file
-    if counter == 100:
+    if counter == 100000:
 
         for i in range(0, data.shape[1]):
 
