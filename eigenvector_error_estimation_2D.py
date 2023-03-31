@@ -53,5 +53,5 @@ for i in range(0, eigenvec.shape[0]):
         else:
             eigenvecMean.iloc[i, j] = (-1) * eigenvecMean.iloc[i, j]
 
-# eigenvecMean.to_csv("Output/Resultados/2D/pcaMean2D.csv")
-# eigenvecStd.to_csv("Output/Resultados/2D/pcaStd2D.csv")
+eigenvecMean.to_csv("Output/Resultados/2D/eigenvecMean2D.csv")
+eigenvecStd.to_csv("Output/Resultados/2D/eigenvecStd2D.csv")

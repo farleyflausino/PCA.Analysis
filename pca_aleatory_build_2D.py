@@ -41,7 +41,7 @@ random = Random_Matrix(average, averageError)
 
 pca = PCA_Analysis()
 
-for iteration in range(0, 1000000):
+for iteration in range(0, 10):
 
     #Average
     mean = random.Random_Gauss()

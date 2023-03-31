@@ -25,92 +25,79 @@ varianceDictionary = {}
 cumulativeVarianceDictionary = {}
 counter = 0
 
-time = datetime.now()
+print("Inicio: "+str(datetime.now().hour)+":"+str(datetime.now().minute)+":"+str(datetime.now().second))
 
-print("Inicio: "+str(time.hour)+":"+str(time.minute)+":"+str(time.second))
+weightedAverage = Weighted_Average(data, dataError)
 
-for iteration in range(0, 10):
+average = weightedAverage.Average()
+averageError = weightedAverage.Average_Error()
+
+covariance = Covariance(data)
+
+random = Random_Matrix(average, averageError)
+
+pca = PCA_Analysis()
+
+for iteration in range(0, 100):
+
+    #Average
+    mean = random.Random_Gauss()
+
     #Covariance
-    covariance = Covariance(
-                            data,
-                            Random_Matrix(
-                                        Weighted_Average(data, dataError).Average(),
-                                        Weighted_Average(data, dataError).Average_Error()
-                            ).Random_Gauss()
-                            )
+    covarianceMatrix = covariance.Covariance_Matrix(mean)
 
     #Correlation
-    correlation = Normalization(
-                                data,
-                                covariance.Deviation_Matrix(),
-                                covariance.Variance_Diagonal(),
-                                covariance.Covariance_Matrix()
-                                )
+    correlation = covariance.Correlation_Matrix(mean)
+
+    #Zscores
+    Zscores = covariance.Normalized_Data(mean)
+
     #Eivalues and Eigenvectors
-    eigenval, eigenvec = PCA_Analysis(correlation.Normalized_Data(), correlation.Correlation_Matrix()).Eigen()
+    eigenval, eigenvec = pca.Eigen(correlation)
     eigenvec = eigenvec.abs()
 
-    # Zscores
-    pcaScores = PCA_Analysis(correlation.Normalized_Data(), correlation.Correlation_Matrix()).PCA().abs()
+    # PCA Scores
+    pcaScores = pca.PCA(correlation, Zscores).abs()
 
     #Dictionaries fill
+
     #PCA
-    for i in range(pcaScores.shape[1]):
-        if "PC_" + str(i+1) in pcaDictionary:
-            pcaDictionary["PC_" + str(i+1)] = pd.concat(
-                                                        [pcaDictionary["PC_" + str(i+1)],
-                                                        pcaScores.iloc[:,i]],
-                                                        axis=1
-                                                        )
+    for i in range(0, pcaScores.shape[1]):
+
+        if "PC_"+str(i+1) in pcaDictionary:
+            pcaDictionary["PC_"+str(i+1)].append([pcaScores.iloc[:, i]])
+
         else:
-            pcaDictionary["PC_" + str(i+1)] = pcaScores.iloc[:, i]
+            pcaDictionary["PC_" + str(i+1)] = [[pcaScores.iloc[:, i]]]
 
     #Eigenvector
-    for i in range(eigenvec.shape[1]):
+
         if "Eigenvector_" + str(i+1) in eigenvecDictionary:
-            eigenvecDictionary["Eigenvector_" + str(i+1)] = pd.concat(
-                                                                    [eigenvecDictionary["Eigenvector_" + str(i+1)],
-                                                                    eigenvec.iloc[:,i]],
-                                                                    axis=1
-                                                                    )
+            eigenvecDictionary["Eigenvector_" + str(i+1)].append([eigenvec.iloc[:,i]])
         else:
-            eigenvecDictionary["Eigenvector_" + str(i+1)] = eigenvec.iloc[:, i]
+            eigenvecDictionary["Eigenvector_" + str(i+1)] = [[eigenvec.iloc[:, i]]]
 
     #Eigenvalues
-    for i in range(eigenval.shape[1]):
-        if "Eigenvalues" in eigenvalDictionary:
-            eigenvalDictionary["Eigenvalues"] = pd.concat(
-                                                        [eigenvalDictionary["Eigenvalues"],
-                                                         eigenval.iloc[:, 0]],
-                                                        axis=1
-                                                        )
-        else:
-            eigenvalDictionary["Eigenvalues"] = eigenval.iloc[:, 0]
+    if "Eigenvalues" in eigenvalDictionary:
+        eigenvalDictionary["Eigenvalues"].append([eigenval.iloc[:, 0]])
+    else:
+        eigenvalDictionary["Eigenvalues"] = [[eigenval.iloc[:, 0]]]
 
     #Variance
-        if "Variance" in varianceDictionary:
-            varianceDictionary["Variance"] = pd.concat(
-                                                    [varianceDictionary["Variance"],
-                                                    eigenval.iloc[:, 1]],
-                                                    axis=1
-                                                    )
-        else:
-            varianceDictionary["Variance"] = eigenval.iloc[:, 1]
+    if "Variance" in varianceDictionary:
+        varianceDictionary["Variance"].append([eigenval.iloc[:, 1]])
+    else:
+        varianceDictionary["Variance"] = [[eigenval.iloc[:, 1]]]
 
     # Cumulative Variance
-        if "Cumulative_Variance" in cumulativeVarianceDictionary:
-            cumulativeVarianceDictionary["Cumulative_Variance"] = pd.concat(
-                                                                [cumulativeVarianceDictionary["Cumulative_Variance"],
-                                                                 eigenval.iloc[:, 2]],
-                                                                axis=1
-                                                                )
-        else:
-            cumulativeVarianceDictionary["Cumulative_Variance"] = eigenval.iloc[:, 2]
+    if "Cumulative_Variance" in cumulativeVarianceDictionary:
+        cumulativeVarianceDictionary["Cumulative_Variance"].append([eigenval.iloc[:, 2]])
+    else:
+        cumulativeVarianceDictionary["Cumulative_Variance"] = [[eigenval.iloc[:, 2]]]
 
     counter = counter + 1
-
     #Save in the file
-    if counter == 10:
+    if counter == 100000:
 
         for i in range(0, data.shape[1]):
 
@@ -119,13 +106,9 @@ for iteration in range(0, 10):
                 pcaDictionaryFile = pickle.load(pcaFile)
 
             if "PC_" + str(i+1) in pcaDictionaryFile:
-                pcaDictionaryFile["PC_" + str(i+1)] = pd.concat(
-                                                                [pcaDictionaryFile["PC_" + str(i+1)],
-                                                                pcaDictionary["PC_" + str(i+1)]],
-                                                                axis=1
-                                                                )
+                pcaDictionaryFile["PC_" + str(i+1)].append(pcaDictionary["PC_" + str(i+1)])
             else:
-                pcaDictionaryFile["PC_" + str(i+1)] = pcaDictionary["PC_" + str(i+1)]
+                pcaDictionaryFile["PC_" + str(i+1)] = [pcaDictionary["PC_" + str(i+1)]]
 
             with open("Output/23D/PCA/PC_"+str(i+1)+".pickle", "wb") as pcaFile:
                 pickle.dump(pcaDictionaryFile, pcaFile, protocol=pickle.HIGHEST_PROTOCOL)
@@ -135,14 +118,11 @@ for iteration in range(0, 10):
                 eigenvecDictionaryFile = pickle.load(eigenvecFile)
 
             if "Eigenvector_" + str(i + 1) in eigenvecDictionaryFile:
-                eigenvecDictionaryFile["Eigenvector_" + str(i + 1)] = \
-                    pd.concat(
-                            [eigenvecDictionaryFile["Eigenvector_" + str(i + 1)],
-                            eigenvecDictionary["Eigenvector_" + str(i + 1)]],
-                            axis=1
-                            )
+                eigenvecDictionaryFile["Eigenvector_" + str(i + 1)].append(
+                    eigenvecDictionary["Eigenvector_" + str(i + 1)]
+                )
             else:
-                eigenvecDictionaryFile["Eigenvector_" + str(i + 1)] = eigenvecDictionary["Eigenvector_" + str(i + 1)]
+                eigenvecDictionaryFile["Eigenvector_" + str(i + 1)] = [eigenvecDictionary["Eigenvector_" + str(i + 1)]]
 
             with open("Output/23D/Eigenvectors/Eigenvector_" + str(i + 1) + ".pickle", "wb") as eigenvecFile:
                 pickle.dump(eigenvecDictionaryFile, eigenvecFile, protocol=pickle.HIGHEST_PROTOCOL)
@@ -156,13 +136,9 @@ for iteration in range(0, 10):
             eigenvalDictionaryFile = pickle.load(eigenvalFile)
 
         if "Eigenvalues" in eigenvalDictionaryFile:
-            eigenvalDictionaryFile["Eigenvalues"] = pd.concat(
-                                                            [eigenvalDictionaryFile["Eigenvalues"],
-                                                            eigenvalDictionary["Eigenvalues"]],
-                                                            axis=1
-                                                            )
+            eigenvalDictionaryFile["Eigenvalues"].append(eigenvalDictionary["Eigenvalues"])
         else:
-            eigenvalDictionaryFile["Eigenvalues"] = eigenvalDictionary["Eigenvalues"]
+            eigenvalDictionaryFile["Eigenvalues"] = [eigenvalDictionary["Eigenvalues"]]
 
         with open("Output/23D/Eigenvalues/Eigenvalues.pickle", "wb") as eigenvalFile:
             pickle.dump(eigenvalDictionaryFile, eigenvalFile, protocol=pickle.HIGHEST_PROTOCOL)
@@ -174,13 +150,9 @@ for iteration in range(0, 10):
             varianceDictionaryFile = pickle.load(varianceFile)
 
         if "Variance" in varianceDictionaryFile:
-            varianceDictionaryFile["Variance"] = pd.concat(
-                                                            [varianceDictionaryFile["Variance"],
-                                                            varianceDictionary["Variance"]],
-                                                            axis=1
-                                                            )
+            varianceDictionaryFile["Variance"].append(varianceDictionary["Variance"])
         else:
-            varianceDictionaryFile["Variance"] = varianceDictionary["Variance"]
+            varianceDictionaryFile["Variance"] = [varianceDictionary["Variance"]]
 
         with open("Output/23D/Eigenvalues/Variance.pickle", "wb") as varianceFile:
             pickle.dump(varianceDictionaryFile, varianceFile, protocol=pickle.HIGHEST_PROTOCOL)
@@ -192,21 +164,25 @@ for iteration in range(0, 10):
             cumulativeVarianceDictionaryFile = pickle.load(cumulativeVarianceFile)
 
         if "Cumulative_Variance" in cumulativeVarianceDictionaryFile:
-            cumulativeVarianceDictionaryFile["Cumulative_Variance"] = pd.concat(
-                                                            [cumulativeVarianceDictionaryFile["Cumulative_Variance"],
-                                                            cumulativeVarianceDictionary["Cumulative_Variance"]],
-                                                            axis=1
-                                                            )
+            cumulativeVarianceDictionaryFile["Cumulative_Variance"].append(
+                cumulativeVarianceDictionary["Cumulative_Variance"]
+            )
         else:
             cumulativeVarianceDictionaryFile["Cumulative_Variance"] = \
-                cumulativeVarianceDictionary["Cumulative_Variance"]
+                [cumulativeVarianceDictionary["Cumulative_Variance"]]
 
         with open("Output/23D/Eigenvalues/Cumulative_Variance.pickle", "wb") as cumulativeVarianceFile:
             pickle.dump(cumulativeVarianceDictionaryFile, cumulativeVarianceFile, protocol=pickle.HIGHEST_PROTOCOL)
 
         cumulativeVarianceDictionary = {}
+
         counter = 0
 
-        print("Fim de uma etapa de 100.000: " + str(time.hour) + ":" + str(time.minute) + ":" + str(time.second))
+        print(
+            "Fim de uma etapa de 100.000: " +
+            str(datetime.now().hour) + ":" +
+            str(datetime.now().minute) + ":" +
+            str(datetime.now().second)
+        )
 
-print("Fim: "+str(time.hour)+":"+str(time.minute)+":"+str(time.second))
+print("Fim: "+str(datetime.now().hour)+":"+str(datetime.now().minute)+":"+str(datetime.now().second))

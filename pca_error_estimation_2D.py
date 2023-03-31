@@ -50,5 +50,5 @@ for i in range(0, pcaScores.shape[0]):
         else:
             pcaMean.iloc[i, j] = (-1) * pcaMean.iloc[i, j]
 
-# pcaMean.to_csv("Output/Resultados/2D/pcaMean2D.csv")
-# pcaStd.to_csv("Output/Resultados/2D/pcaStd2D.csv")
+pcaMean.to_csv("Output/Resultados/2D/pcaMean2D.csv")
+pcaStd.to_csv("Output/Resultados/2D/pcaStd2D.csv")
