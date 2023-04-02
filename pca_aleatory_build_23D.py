@@ -3,7 +3,6 @@ import pickle
 from Classes.Weighted_Average import Weighted_Average
 from Classes.Aleatory_Matrix import Random_Matrix
 from Classes.Covariance import Covariance
-from Classes.Normalization import Normalization
 from Classes.PCA_Analysis import PCA_Analysis
 from datetime import datetime
 
@@ -38,7 +37,7 @@ random = Random_Matrix(average, averageError)
 
 pca = PCA_Analysis()
 
-for iteration in range(0, 100):
+for iteration in range(0, 1000000):
 
     #Average
     mean = random.Random_Gauss()
