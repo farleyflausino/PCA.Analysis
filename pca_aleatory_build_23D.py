@@ -37,19 +37,12 @@ random = Random_Matrix(average, averageError)
 
 pca = PCA_Analysis()
 
-for iteration in range(0, 1000000):
+for iteration in range(0, 1000):
 
     #Average
     mean = random.Random_Gauss()
 
-    #Covariance
-    covarianceMatrix = covariance.Covariance_Matrix(mean)
-
-    #Correlation
-    correlation = covariance.Correlation_Matrix(mean)
-
-    #Zscores
-    Zscores = covariance.Normalized_Data(mean)
+    correlation, Zscores = covariance.Covariance_Metrics(mean)
 
     #Eivalues and Eigenvectors
     eigenval, eigenvec = pca.Eigen(correlation)
