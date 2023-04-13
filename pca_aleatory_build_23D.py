@@ -5,6 +5,9 @@ from Classes.Aleatory_Matrix import Random_Matrix
 from Classes.Covariance import Covariance
 from Classes.PCA_Analysis import PCA_Analysis
 from datetime import datetime
+import warnings
+
+warnings.filterwarnings("ignore")
 
 #Data input
 data = pd.read_excel("Dados/Dados_PCA_29_Obs.xlsx", "Dados_29_Obs")
@@ -37,7 +40,7 @@ random = Random_Matrix(average, averageError)
 
 pca = PCA_Analysis()
 
-for iteration in range(0, 1000000):
+for iteration in range(0, 100000):
 
     #Average
     mean = random.Random_Gauss()
@@ -105,6 +108,12 @@ for iteration in range(0, 1000000):
             with open("Output/23D/PCA/PC_"+str(i+1)+".pickle", "wb") as pcaFile:
                 pickle.dump(pcaDictionaryFile, pcaFile, protocol=pickle.HIGHEST_PROTOCOL)
 
+            pcaDictionary["PC_" + str(i+1)] = {}
+
+        pcaDictionary = {}
+
+        for i in range(0, data.shape[1]):
+
             #Eigenvectors
             with open("Output/23D/Eigenvectors/Eigenvector_" + str(i + 1) + ".pickle", "rb") as eigenvecFile:
                 eigenvecDictionaryFile = pickle.load(eigenvecFile)
@@ -119,7 +128,8 @@ for iteration in range(0, 1000000):
             with open("Output/23D/Eigenvectors/Eigenvector_" + str(i + 1) + ".pickle", "wb") as eigenvecFile:
                 pickle.dump(eigenvecDictionaryFile, eigenvecFile, protocol=pickle.HIGHEST_PROTOCOL)
 
-        pcaDictionary = {}
+            eigenvecDictionary["Eigenvector_" + str(i + 1)] = {}
+
         eigenvecDictionary = {}
 
         #Eigenvalues
