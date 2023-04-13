@@ -70,5 +70,5 @@ cumulativevarianceStd = pd.DataFrame(cumulativevarianceStd, columns=["Cumulative
 eigenvalMean = pd.concat([eigenvalMean, varianceMean, cumulativevarianceMean], axis=1)
 eigenvalStd = pd.concat([eigenvalStd, varianceStd, cumulativevarianceStd], axis=1)
 
-# eigenvalMean.to_csv("Output/Resultados/23D/eigenvalMean23D.csv")
-# eigenvalStd.to_csv("Output/Resultados/23D/eigenvalStd23D.csv")
+eigenvalMean.to_csv("Output/Resultados/23D/eigenvalMean23D.csv")
+eigenvalStd.to_csv("Output/Resultados/23D/eigenvalStd23D.csv")
